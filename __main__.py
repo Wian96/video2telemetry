@@ -9,9 +9,23 @@ import matplotlib.pyplot as plt
 
 def img2dat(file,frameCounter):
     img_orig = cv.imread(file)
+    img_cropped = img_orig[250:420,110:472]
+#    cv.imshow('crop',img_cropped)
+#    cv.waitKey(0)
 #    img_orig = cv.imread('cropped.png')
-    img = cv.cvtColor(img_orig, cv.COLOR_BGR2RGB) #Contents of img:[y coordinate,x coordinate, [R, G, B]]
-#    cv.imshow('edges',img_orig)
+    img = cv.cvtColor(img_cropped, cv.COLOR_BGR2RGB) #Contents of img:[y coordinate,x coordinate, [R, G, B]]
+#    image = cv.cvtColor(img_cropped, cv.COLOR_BGR2HLS) #Contents of img:[y coordinate,x coordinate, [R, G, B]]
+#    lower = np.uint8([0, 200, 0])
+#    upper = np.uint8([255, 255, 255])
+#    white_mask = cv.inRange(image, lower, upper)
+    # yellow color mask
+#    lower = np.uint8([150,110,110])
+#    upper = np.uint8([210,180,160])
+#    yellow_mask = cv.inRange(image, lower, upper)
+    # combine the mask
+#    mask = cv.bitwise_or(yellow_mask, white_mask)
+#    cv.imshow("mask",mask) 
+#    cv.imshow('edges',img)
 #    cv.waitKey(0)
     #Array for storing coordinates
     #graph_coordinate = [[0 for i in range(3)] for j in range(i_range * j_range)]
@@ -20,9 +34,9 @@ def img2dat(file,frameCounter):
     j_range = img.shape[1]
     graph_coordinate = []
     x_list = []
-    R_range = [60,100]
-    G_range = [110,160]
-    B_range = [180,210]
+    R_range = [150,210]
+    G_range = [110,180]
+    B_range = [110,160]
     #y-axis loop
     for i in range(i_range):
         #x-axis loop
@@ -50,10 +64,14 @@ def img2dat(file,frameCounter):
 
     plt.title('Interpolated graph function')
     plt.plot(y,negx,'*')
-    name  = ['output_',frameCounter,'.dat']
+    plt.show()
+    name  = '__dat_out__//output_'+str(frameCounter)+'.dat'
     np.savetxt(name, data, delimiter=',')
 
 if __name__ == '__main__':
-    inputFile = sys.argv[0]
-    frameCounter = sys.argv[1]
+#    inputFile = sys.argv[1]
+ #   frameCounter = sys.argv[2]
+    inputFile = "__tmp_img__//frame_2.png"
+    frameCounter = "1"
+    print(inputFile)
     img2dat(inputFile,frameCounter)
